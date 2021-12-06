@@ -1,0 +1,29 @@
+{
+  "compilerOptions": {
+    "lib": ["ES5", "ES6"],
+    "allowJs": true,
+    "checkJs": true,
+    "baseUrl": "./",
+    "emitDecoratorMetadata": true,
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "strictPropertyInitialization": false,
+    "importHelpers": true,
+    "module": "commonjs",
+    "outDir": "bin",
+    "rootDir": "src",
+    "removeComments": true,
+    "sourceMap": false,
+    "strict": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "target": "ES6",
+    "moduleResolution": "node",
+    "typeRoots": ["@types", "node_modules/@types"],
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true
+  },
+  "include": ["src/**/*.ts", "spec/**/*.ts"],
+  "exclude": ["node_modules"]
+}
