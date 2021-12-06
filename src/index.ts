@@ -1,10 +1,11 @@
-import { exit } from "process";
-import "path";
+import mongoose from "mongoose";
+import { createExpressApp } from "./app";
+import { MONGO_URI, PORT } from "./config";
 
-console.log("akshit");
-let a;
-// exit(1);
+mongoose.connect(MONGO_URI);
 
-const gy = () => {
-  console.log("hhah");
-};
+const app = createExpressApp();
+
+app.listen(PORT, () => {
+  console.log("server started");
+});
