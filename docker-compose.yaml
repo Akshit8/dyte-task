@@ -23,6 +23,8 @@ services:
       ME_CONFIG_MONGODB_ENABLE_ADMIN: 'true'
     ports:
       - 8001:8081
+    depends_on: 
+      - mongo
 
 volumes:
   mongo:
