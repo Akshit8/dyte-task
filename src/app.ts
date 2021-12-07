@@ -1,6 +1,7 @@
 import cors from "cors";
 import express from "express";
 import helmet from "helmet";
+import router from "./api/routes";
 import { notFoundHandler, serverErrorHandler } from "./utils";
 
 export const createExpressApp = (): express.Express => {
@@ -11,6 +12,8 @@ export const createExpressApp = (): express.Express => {
 
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
+
+  app.use("/api/v1", router);
 
   app.use(notFoundHandler);
   app.use(serverErrorHandler);

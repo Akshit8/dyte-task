@@ -1,7 +1,18 @@
 import { Document, model, Model, Schema } from "mongoose";
 import { NotFoundError } from "../errors";
 
-const userSchema = new Schema(
+interface UserDocument extends Document {
+  email: string;
+  password?: string;
+  createdAt?: Schema.Types.Date;
+  updatedAt?: Schema.Types.Date;
+}
+
+interface UserModel extends Model<UserDocument> {
+  findUserById(userID: string): Promise<UserDocument>;
+}
+
+const userSchema = new Schema<UserDocument, UserModel>(
   {
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true }
@@ -11,14 +22,16 @@ const userSchema = new Schema(
   }
 );
 
-interface UserDocument extends Document {
-  email: String;
-  password: String;
-}
+userSchema.virtual("urls", {
+  ref: "URL",
+  localField: "_id",
+  foreignField: "owner"
+});
 
 userSchema.methods.toJSON = function () {
   const user = this.toObject();
 
+  delete user.__v;
   delete user.password;
   delete user.createdAt;
   delete user.updatedAt;
@@ -33,9 +46,5 @@ userSchema.statics.findUserById = async (userID: string): Promise<UserDocument> 
   }
   return user;
 };
-
-interface UserModel extends Model<UserDocument> {
-  findUserById(userID: string): Promise<UserDocument>;
-}
 
 export const User = model<UserDocument, UserModel>("users", userSchema);

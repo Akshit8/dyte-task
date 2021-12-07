@@ -7,7 +7,7 @@
     "dev": "nodemon",
     "dev:db": "docker-compose up -d",
     "build": "tsc -p  tsconfig.json",
-    "start": "node bin/index.js",
+    "start": "node bin/server.js",
     "lint": "eslint --fix --ext .ts,.js ./src",
     "format": "prettier --ignore-path .gitignore --write \"**/*.+(js|ts|json)\""
   },

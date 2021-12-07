@@ -19,7 +19,7 @@
     "strictNullChecks": true,
     "target": "ES6",
     "moduleResolution": "node",
-    "typeRoots": ["@types", "node_modules/@types"],
+    "typeRoots": ["src/@types", "node_modules/@types"],
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true
