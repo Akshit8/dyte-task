@@ -1,21 +1,28 @@
 import { NextFunction, Request, Response } from "express";
-import { APIError, NotFoundError } from "../errors";
-
-export const catchAsync = (handler: any) => {
-  return (...args: [Request, Response, NextFunction]) => {
-    handler(...args).catch(args[2]);
-  };
-};
+import { APIError, InternalError, NotFoundError } from "../errors";
 
 export const notFoundHandler = (req: Request, res: Response, next: NextFunction) => {
   next(new NotFoundError());
 };
 
 export const serverErrorHandler = (
-  err: APIError,
+  err: Error,
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
-  res.status(err.status_code).send(err);
+  let e: APIError = <APIError>err;
+  if (!(err instanceof APIError)) {
+    // log error
+    if (err instanceof InternalError) {
+      console.log(
+        `Error:\ncode: ${err.code}\nmessage: ${err.message}\nerror:${err.error}`
+      );
+    } else {
+      console.log(`Error:\n${err}`);
+    }
+    e = new APIError();
+  }
+
+  res.status(e.status_code).send(e);
 };
