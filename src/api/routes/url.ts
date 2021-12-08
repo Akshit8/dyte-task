@@ -12,7 +12,7 @@ const router: Router = Router();
 router.post("/", addURLController);
 router.get("/:id", getURLController);
 router.get("/", getAllURLController);
-router.patch("/:id", updateURLController);
+router.put("/:id", updateURLController);
 router.delete("/:id", deleteURLController);
 
 export default router;

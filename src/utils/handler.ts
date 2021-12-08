@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { APIError, InternalError, NotFoundError } from "../errors";
+import { APIError, InternalError, NotFoundError, RedirectError } from "../errors";
 
 export const notFoundHandler = (req: Request, res: Response, next: NextFunction) => {
   next(new NotFoundError());
@@ -18,6 +18,9 @@ export const serverErrorHandler = (
       console.log(
         `Error:\ncode: ${err.code}\nmessage: ${err.message}\nerror:${err.error}`
       );
+      if (err instanceof RedirectError) {
+        return;
+      }
     } else {
       console.log(`Error:\n${err}`);
     }

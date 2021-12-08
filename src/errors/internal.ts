@@ -19,3 +19,9 @@ export class JWTError extends InternalError {
     super("E001", msg, err);
   }
 }
+
+export class RedirectError extends InternalError {
+  constructor(err?: any) {
+    super("E002", "error occured while redirecting", err);
+  }
+}

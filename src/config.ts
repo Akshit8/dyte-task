@@ -16,3 +16,4 @@ export const MONGO_OPTIONS: ConnectOptions = {
 
 // business logic config
 export const SHORT_URL_LENGTH = 5;
+export const DEFAULT_FALLBACK_URL_REDIRECT = "https://github.com/Akshit8";

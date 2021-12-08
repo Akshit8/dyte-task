@@ -1,12 +1,13 @@
 import { MongoError } from "mongodb";
 import { Document, model, Model, Schema } from "mongoose";
-import { APIError } from "../errors";
-import { SHORT_URL_LENGTH } from "../config";
 import { generate } from "randomstring";
+import { SHORT_URL_LENGTH } from "../config";
+import { APIError } from "../errors";
 
 export interface URLDocument extends Document {
   code: string;
   url: string;
+  redirects: number;
   owner: Schema.Types.ObjectId;
   createdAt?: Schema.Types.Date;
   updatedAt?: Schema.Types.Date;
@@ -20,6 +21,7 @@ const urlSchema = new Schema<URLDocument, URLModel>(
   {
     code: { type: String, required: true, unique: true },
     url: { type: String, required: true },
+    redirects: { type: Number, default: 0 },
     owner: { type: Schema.Types.ObjectId, required: true, ref: "User" }
   },
   {
