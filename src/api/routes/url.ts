@@ -1,4 +1,5 @@
 import { Router } from "express";
+import { urlAddValidator, validate } from "../../validators";
 import {
   addURLController,
   deleteURLController,
@@ -9,7 +10,7 @@ import {
 
 const router: Router = Router();
 
-router.post("/", addURLController);
+router.post("/", urlAddValidator(), validate, addURLController);
 router.get("/:id", getURLController);
 router.get("/", getAllURLController);
 router.put("/:id", updateURLController);
