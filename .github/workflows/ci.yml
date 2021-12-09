@@ -42,7 +42,7 @@ jobs:
     - name: build
       run: |
         npm run build
-        docker build -t akshit/zebtro-server -f ./deployment/Dockerfile .
+        docker build -t akshit8/zebtro-server -f ./deployment/Dockerfile .
 
     - name: docker login
       run: |
