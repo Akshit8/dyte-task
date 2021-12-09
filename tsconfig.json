@@ -8,7 +8,7 @@
     "esModuleInterop": true,
     "experimentalDecorators": true,
     "strictPropertyInitialization": false,
-    "importHelpers": true,
+    "importHelpers": false,
     "module": "commonjs",
     "outDir": "bin",
     "rootDir": "src",
