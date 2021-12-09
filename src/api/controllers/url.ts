@@ -2,7 +2,8 @@ import { NextFunction, Request, Response } from "express";
 import { MongoError } from "mongodb";
 import { Error } from "mongoose";
 import { BadRequestError, NotFoundError } from "../../errors";
-import { URL, URLDocument } from "../../models";
+import { URL, URLDocument, Visitor } from "../../models";
+import { ipLocation } from "../../types";
 
 export const addURLController = async (
   req: Request,
@@ -40,7 +41,19 @@ export const getURLController = async (
     const { id } = req.params;
     const owner = req.currentUser._id;
     const url = await URL.findOne({ _id: id, owner: owner }).orFail();
-    res.send(url);
+    const visitors = await Visitor.find({ code: url.code });
+    const ips: string[] = [];
+    const locations: ipLocation[] = [];
+    visitors.forEach((visitor) => {
+      ips.push(visitor.ip);
+      locations.push({ city: visitor.city, country: visitor.country });
+    });
+    const analytics = {
+      visitors: visitors.length,
+      ips: ips,
+      locations: locations
+    };
+    res.send({ url, analytics });
   } catch (e) {
     if (e instanceof Error.DocumentNotFoundError) {
       next(new NotFoundError("url not found"));

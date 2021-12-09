@@ -20,11 +20,9 @@ describe("POST /api/user", () => {
   const endpoint = "/api/user";
 
   it("200 OK", async () => {
-    const token = await getAuthToken(true);
-    console.log(token);
     await request(server)
       .post(endpoint)
-      .set({ Authorization: `Bearer ${token}` })
+      .set({ Authorization: `Bearer ${await getAuthToken(true)}` })
       .expect(200);
   });
 
