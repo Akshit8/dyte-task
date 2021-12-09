@@ -1,6 +1,6 @@
 import faker from "faker";
 import { ObjectId } from "mongodb";
-import { User, UserDocument } from "../src/models";
+import { URL, URLDocument, User, UserDocument } from "../src/models";
 import { JWTUtility } from "../src/utils";
 
 export const createNewUser = async (pswd?: string): Promise<UserDocument> => {
@@ -21,4 +21,15 @@ export const getAuthToken = async (valid: boolean): Promise<string> => {
     const id = new ObjectId();
     return await jwt.signToken({ id: id.toString() });
   }
+};
+
+export const createNewURL = async (): Promise<URLDocument> => {
+  const user = await createNewUser();
+  const url = new URL({
+    code: faker.random.alphaNumeric(5),
+    url: faker.internet.url(),
+    owner: user._id
+  });
+  await url.save();
+  return url;
 };

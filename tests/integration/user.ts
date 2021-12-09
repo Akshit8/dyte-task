@@ -16,19 +16,19 @@ afterAll(async () => {
   await disconnect();
 });
 
-describe("POST /api/user", () => {
+describe("GET /api/user", () => {
   const endpoint = "/api/user";
 
   it("200 OK", async () => {
     await request(server)
-      .post(endpoint)
+      .get(endpoint)
       .set({ Authorization: `Bearer ${await getAuthToken(true)}` })
       .expect(200);
   });
 
   it("401 INVALID TOKEN", async () => {
     await request(server)
-      .post(endpoint)
+      .get(endpoint)
       .set({ Authorization: `Bearer ${await getAuthToken(false)}` })
       .expect(401);
   });
