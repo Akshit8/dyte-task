@@ -26,6 +26,10 @@ jobs:
       with:
         node-version: '14'
 
+    - name: install deps
+      run: |
+        npm ci
+      
     - name: format and lint
       run: |
         npm run format
