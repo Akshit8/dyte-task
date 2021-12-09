@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { Error } from "mongoose";
+import { renderAPIResponse } from "../../utils";
 import { NotFoundError } from "../../errors";
 
 export const getUserController = async (
@@ -10,7 +11,7 @@ export const getUserController = async (
   try {
     const user = req.currentUser;
     await user.populate({ path: "urls", select: "_id code url owner" });
-    res.send(user);
+    renderAPIResponse({ data: { user } }, res);
   } catch (e) {
     if (e instanceof Error.DocumentNotFoundError) {
       next(new NotFoundError("user not found"));

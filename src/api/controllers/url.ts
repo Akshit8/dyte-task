@@ -4,6 +4,7 @@ import { Error } from "mongoose";
 import { BadRequestError, NotFoundError } from "../../errors";
 import { URL, URLDocument, Visitor } from "../../models";
 import { ipLocation } from "../../types";
+import { renderAPIResponse } from "../../utils";
 
 export const addURLController = async (
   req: Request,
@@ -20,7 +21,7 @@ export const addURLController = async (
     } else {
       newURL = await URL.saveURL(url, owner);
     }
-    res.send(newURL);
+    renderAPIResponse({ status_code: 201, data: { url: newURL } }, res);
   } catch (e) {
     if (e instanceof Error.ValidationError) {
       next(new BadRequestError("invalid data recieved"));
@@ -53,7 +54,7 @@ export const getURLController = async (
       ips: ips,
       locations: locations
     };
-    res.send({ url, analytics });
+    renderAPIResponse({ data: { url, analytics } }, res);
   } catch (e) {
     if (e instanceof Error.DocumentNotFoundError) {
       next(new NotFoundError("url not found"));
@@ -71,7 +72,7 @@ export const getAllURLController = async (
   try {
     const owner = req.currentUser._id;
     const urls = await URL.find({ owner: owner });
-    res.send(urls);
+    renderAPIResponse({ data: { urls } }, res);
   } catch (e) {
     next(e);
   }
@@ -94,7 +95,7 @@ export const updateURLController = async (
       url.url = updatedUrl;
     }
     await url.save();
-    res.send(url);
+    renderAPIResponse({ data: { url } }, res);
   } catch (e) {
     if (e instanceof Error.DocumentNotFoundError) {
       next(new NotFoundError("url not found"));
@@ -117,7 +118,7 @@ export const deleteURLController = async (
     const { id } = req.params;
     const owner = req.currentUser._id;
     await URL.findOneAndDelete({ _id: id, owner: owner });
-    res.send("done");
+    renderAPIResponse({ data: "success" }, res);
   } catch (e) {
     next(e);
   }

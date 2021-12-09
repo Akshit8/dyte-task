@@ -1,10 +1,10 @@
 import { NextFunction, Request, Response } from "express";
-import { Error } from "mongoose";
 import { MongoError } from "mongodb";
+import { Error } from "mongoose";
 import { BadRequestError } from "../../errors";
 import { User } from "../../models";
-import { JWTUtility } from "../../utils";
 import { jwtPayload } from "../../types";
+import { JWTUtility, renderAPIResponse } from "../../utils";
 
 export const signUpController = async (
   req: Request,
@@ -12,10 +12,14 @@ export const signUpController = async (
   next: NextFunction
 ) => {
   try {
-    const { email, password } = req.body;
+    const { email, password, confirm_password } = req.body;
+    if (password !== confirm_password) {
+      next(new BadRequestError("passowrd mismatch"));
+      return;
+    }
     const user = new User({ email, password });
     await user.save();
-    res.send(user);
+    renderAPIResponse({ status_code: 201, data: { user } }, res);
   } catch (e) {
     if (e instanceof Error.ValidationError) {
       next(new BadRequestError("invalid data recieved"));
@@ -37,7 +41,7 @@ export const loginController = async (
     const user = await User.findByCredentials(email, password);
     const payload: jwtPayload = { id: user._id };
     const token = await new JWTUtility().signToken(payload);
-    res.send({ token });
+    renderAPIResponse({ data: { token } }, res);
   } catch (e) {
     next(e);
   }
