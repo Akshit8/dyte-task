@@ -4,7 +4,7 @@ import helmet from "helmet";
 import router from "./api/routes";
 import { notFoundHandler, serverErrorHandler } from "./utils";
 
-export const createExpressApp = (): express.Express => {
+export const createExpressApp = async (): Promise<express.Express> => {
   const app = express();
 
   app.use(helmet({ dnsPrefetchControl: { allow: true } }));

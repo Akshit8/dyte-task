@@ -9,7 +9,7 @@ import { MONGO_OPTIONS, MONGO_URI, PORT } from "./config";
     // connecting to mongo db
     await mongoose.connect(MONGO_URI, MONGO_OPTIONS);
 
-    const app = createExpressApp();
+    const app = await createExpressApp();
     app.listen(+PORT, () => {
       console.log(`server is listening on port: ${3000}`);
     });
