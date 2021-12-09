@@ -1,0 +1,27 @@
+version: "3.7"
+
+services:
+  mongo:
+    image: mongo
+    container_name: mongodb-1
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: rootpassword
+    ports:
+      - 27017:27017
+    volumes:
+      - mongo:/data/db
+
+  app:
+    image: akshit8/zebtro-server
+    container_name: zebtro-app
+    environment:
+      MONGO_URI: mongodb://mongo:27017/
+    ports:
+      - 3000:3000
+    depends_on:
+     - mongo
+
+
+volumes:
+  mongo:
