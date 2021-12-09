@@ -2,7 +2,7 @@
   "name": "zebtro-server",
   "version": "1.0.0",
   "description": "Rest api for zebtro URL shortner, written in typescript using express.",
-  "main": "bin/index.js",
+  "main": "bin/server.js",
   "scripts": {
     "dev": "nodemon",
     "dev:db": "docker-compose -f docker-compose.dev.yaml up -d",

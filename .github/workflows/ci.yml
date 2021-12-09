@@ -42,6 +42,17 @@ jobs:
     - name: build
       run: |
         npm run build
+        docker build -t akshit/zebtro-server ./deployment
+
+    - name: docker login
+      run: |
+        docker login -u ${{secrets.USERNAME}} -p ${{secrets.PASSWORD}}
+
+    - name: push docker image
+      run: |
+        docker push akshit8/zebtro-server
+
+    
 
 
 
