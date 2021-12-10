@@ -20,17 +20,18 @@ afterAll(async () => {
 
 describe("POST /api/auth/signup", () => {
   const endpoint = "/api/auth/signup";
-  it("200 OK", async () => {
+  it("201 CREATED", async () => {
+    const pswd = faker.random.alphaNumeric(8);
     await request(server)
       .post(endpoint)
-      .send({ email: faker.internet.email(), password: faker.random.alphaNumeric(6) })
-      .expect(200);
+      .send({ email: faker.internet.email(), password: pswd, confirm_password: pswd })
+      .expect(201);
   });
 
   it("400 INVALID DATA", async () => {
     await request(server)
       .post(endpoint)
-      .send({ email: faker.internet.email(), password: "" })
+      .send({ email: faker.internet.email(), password: "", confirm_password: "" })
       .expect(400);
   });
 
@@ -39,7 +40,11 @@ describe("POST /api/auth/signup", () => {
 
     await request(server)
       .post(endpoint)
-      .send({ email: user.email, password: user.password })
+      .send({
+        email: user.email,
+        password: user.password,
+        confirm_password: user.password
+      })
       .expect(400);
   });
 });

@@ -23,6 +23,16 @@ services:
     depends_on:
      - mongo
 
+  logger:
+    container_name: fluentd
+    user: root
+    image: fluent/fluentd:v1.11-debian
+    volumes:
+    - /var/lib/docker/containers:/fluentd/log/containers
+    - ./fluent.conf:/fluentd/etc/fluent.conf
+    - ./logs:/output/
+    logging:
+      driver: "local"
 
 volumes:
   mongo:

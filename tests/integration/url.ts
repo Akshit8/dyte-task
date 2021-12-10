@@ -27,12 +27,12 @@ describe("POST /api/url", () => {
     token = await getAuthToken(true);
   });
 
-  it("200 OK", async () => {
+  it("201 CREATED", async () => {
     await request(server)
       .post(endpoint)
       .set({ Authorization: `Bearer ${token}` })
       .send({ url: faker.internet.url() })
-      .expect(200);
+      .expect(201);
   });
 
   it("400 REPEATED CODE", async () => {
